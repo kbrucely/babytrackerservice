@@ -26,13 +26,14 @@ namespace babytrackerservice.Repositories
 
         public void Add(Feeding feed)
         {
+            var parameters = new { fed_at = feed.fed_at, baby_id = feed.baby.baby_id };
             using (System.Data.IDbConnection dbConnection = Connection)
             {
                 //feed in the parameters into the query directly instead of trying to reference the object. 
                 string sQuery = "INSERT INTO baby_feedings (baby_id, fed_at)"
                                 + " VALUES(@baby_id, @fed_at)";
                 dbConnection.Open();
-                dbConnection.Execute(sQuery, feed);
+                dbConnection.Execute(sQuery, parameters);
             }
         }
 
@@ -69,13 +70,14 @@ namespace babytrackerservice.Repositories
 
         public void Update(Feeding feed)
         {
+            var parameters = new { feed_id = feed.feed_id, fed_at = feed.fed_at, baby_id = feed.baby.baby_id };
             using (System.Data.IDbConnection dbConnection = Connection)
             {
                 string sQuery = "UPDATE baby_feedings SET"
                                + " fed_at=@fed_at, baby_id=@baby_id"
                                + " WHERE feed_id = @feed_id";
                 dbConnection.Open();
-                dbConnection.Query(sQuery, feed);
+                dbConnection.Query(sQuery, parameters);
             }
         }
     }

@@ -17,7 +17,8 @@ namespace babytrackerservice.Controllers
 
         public FeedingController()
         {
-            feedingRepository = new FeedingRepository();
+            feedingRepository 
+                = new FeedingRepository();
         }
 
         // GET: api/values

@@ -9,7 +9,7 @@ namespace babytrackerservice.Models
     {
         public int feed_id { get; set; }
         public DateTime fed_at { get; set; }
-        public int baby_id { get; set; }
+        public BabyName baby { get; set; }
 
     }
 }
