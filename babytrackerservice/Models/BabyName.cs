@@ -10,5 +10,6 @@ namespace babytrackerservice.Models
         public int baby_id { get; set; }
         public string first_name { get; set; }
         public string last_name { get; set; }
+        public DateTime baby_birthday { get; set; }
     }
 }

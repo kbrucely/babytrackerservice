@@ -27,8 +27,8 @@ namespace babytrackerservice.Repositories
         {
             using (System.Data.IDbConnection dbConnection = Connection)
             {
-                string sQuery = "INSERT INTO baby_name (first_name, last_name)"
-                                + " VALUES(@first_name, @last_name)";
+                string sQuery = "INSERT INTO baby_name (first_name, last_name, baby_birthday)"
+                                + " VALUES(@first_name, @last_name, @baby_birthday)";
                 dbConnection.Open();
                 dbConnection.Execute(sQuery, baby);
             }
@@ -70,7 +70,7 @@ namespace babytrackerservice.Repositories
             using (System.Data.IDbConnection dbConnection = Connection)
             {
                 string sQuery = "UPDATE baby_name SET"
-                               + " first_name=@first_name, last_name=@last_name"
+                               + " first_name=@first_name, last_name=@last_name, baby_birthday=@baby_birthday"
                                + " WHERE baby_id = @baby_id";
                 dbConnection.Open();
                 dbConnection.Query(sQuery, baby);
