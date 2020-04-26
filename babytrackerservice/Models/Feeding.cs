@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace babytrackerservice.Models
 {
-    public class BabyName
+    public class Feeding
     {
+        public int feed_id { get; set; }
+        public DateTime fed_at { get; set; }
         public int baby_id { get; set; }
-        public string first_name { get; set; }
-        public string last_name { get; set; }
-        public DateTime  baby_birthday { get; set; }
+
     }
 }
