@@ -51,10 +51,19 @@ namespace babytrackerservice.Repositories
         {
             using (System.Data.IDbConnection dbConnection = Connection)
             {
-                string sQuery = "SELECT * FROM baby_changings"
-                               + " WHERE poop_id = @Id";
+                string sQuery = "SELECT c.poop_id, c.poop_at, n.baby_id, n.first_name, n.last_name, n.baby_birthday" 
+                                +" FROM baby_changings c INNER JOIN baby_name n ON c.baby_id = n.baby_id"
+                                +" WHERE c.poop_id = @Id";
                 dbConnection.Open();
-                return dbConnection.Query<Changing>(sQuery, new { Id = id }).FirstOrDefault();
+                return dbConnection.Query<Changing,BabyName,Changing>(
+                    sQuery, 
+                    map: (c, b) => {
+                        c.baby = b;
+                        return c;
+                    },
+                    splitOn: "baby_id",
+                    param: new { @Id = id }
+                    ).FirstOrDefault();
             }
         }
 
