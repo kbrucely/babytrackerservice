@@ -41,8 +41,18 @@ namespace babytrackerservice.Repositories
         {
             using (System.Data.IDbConnection dbConnection = Connection)
             {
+                string sQuery = "SELECT f.feed_id, f.fed_at, n.baby_id, n.first_name, n.last_name, n.baby_birthday"
+                                + " FROM baby_feedings f INNER JOIN baby_name n ON f.baby_id = n.baby_id";
                 dbConnection.Open();
-                return dbConnection.Query<Feeding>("SELECT * FROM baby_feedings");
+                return dbConnection.Query<Feeding, BabyName, Feeding>(
+                    sQuery,
+                    map: (f, b) =>
+                    {
+                        f.baby = b;
+                        return f;
+                    },
+                    splitOn: "baby_id"
+                    );
             }
         }
 
@@ -50,10 +60,19 @@ namespace babytrackerservice.Repositories
         {
             using (System.Data.IDbConnection dbConnection = Connection)
             {
-                string sQuery = "SELECT * FROM baby_feedings"
-                               + " WHERE feed_id = @Id";
+                string sQuery = "SELECT f.feed_id, f.fed_at, n.baby_id, n.first_name, n.last_name, n.baby_birthday"
+                                + " FROM baby_feedings f INNER JOIN baby_name n ON f.baby_id = n.baby_id"
+                                + " WHERE f.feed_id = @Id";
                 dbConnection.Open();
-                return dbConnection.Query<Feeding>(sQuery, new { Id = id }).FirstOrDefault();
+                return dbConnection.Query<Feeding, BabyName, Feeding>(
+                    sQuery,
+                    map: (f, b) => {
+                        f.baby = b;
+                        return f;
+                    },
+                    splitOn: "baby_id",
+                    param: new { @Id = id }
+                    ).FirstOrDefault();
             }
         }
 
